@@ -1,0 +1,239 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0.75rem 0;
+  transition: all var(--transition);
+  background: transparent;
+}
+
+.header--scrolled {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-md);
+  padding: 0.5rem 0;
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* ---- Brand tipográfico ---- */
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.header__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: var(--color-primary);
+  transition: all var(--transition);
+}
+
+.header__bolt {
+  width: 22px;
+  height: 22px;
+  color: #fff;
+  transition: color var(--transition);
+}
+
+.header__brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.header__brand-name {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  transition: color var(--transition);
+}
+
+.header--scrolled .header__brand-name {
+  color: var(--color-primary);
+}
+
+.header__brand-full {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.08rem;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+.header--scrolled .header__brand-full {
+  color: var(--color-secondary);
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 0.25rem;
+}
+
+.header__link {
+  padding: 0.5rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+  position: relative;
+}
+
+.header:not(.header--scrolled) .header__link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.header:not(.header--scrolled) .header__link:hover,
+.header:not(.header--scrolled) .header__link--active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.header--scrolled .header__link {
+  color: var(--color-text-light);
+}
+
+.header--scrolled .header__link:hover,
+.header--scrolled .header__link--active {
+  color: var(--color-secondary);
+  background: var(--color-accent-light);
+}
+
+.header__cta {
+  padding: 0.6rem 1.4rem;
+  font-size: 0.85rem;
+}
+
+/* ---- Hamburger ---- */
+.header__burger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  z-index: 1010;
+}
+
+.header__burger span {
+  display: block;
+  width: 24px;
+  height: 2.5px;
+  border-radius: 2px;
+  transition: all var(--transition);
+}
+
+.header:not(.header--scrolled) .header__burger span {
+  background: #fff;
+}
+
+.header--scrolled .header__burger span {
+  background: var(--color-primary);
+}
+
+.header__burger--open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.header__burger--open span:nth-child(2) {
+  opacity: 0;
+}
+.header__burger--open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ---- Mobile menu ---- */
+.header__mobile {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 37, 64, 0.98);
+  backdrop-filter: blur(16px);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition);
+}
+
+.header__mobile--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.header__mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.header__mobile-brand .header__bolt {
+  color: var(--color-accent);
+  width: 24px;
+  height: 24px;
+}
+
+.header__mobile-brand .header__brand-name {
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+.header__mobile-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 80%;
+  max-width: 320px;
+}
+
+.header__mobile-link {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.15rem;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+  width: 100%;
+  text-align: center;
+}
+
+.header__mobile-link:hover,
+.header__mobile-link--active {
+  color: #fff;
+  background: rgba(77, 163, 255, 0.15);
+}
+
+/* ---- Responsive: oculta nombre completo en móvil ---- */
+@media (max-width: 768px) {
+  .header__brand-full {
+    display: none;
+  }
+}

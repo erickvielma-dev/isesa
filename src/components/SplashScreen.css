@@ -1,0 +1,87 @@
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #0A2540 0%, #0F3460 50%, #1B6EC2 100%);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+  overflow: hidden;
+}
+
+.splash--hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Onda animada de fondo */
+.splash__wave {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(77, 163, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(27, 110, 194, 0.06) 0%, transparent 50%);
+  animation: wavePulse 3s ease-in-out infinite;
+}
+
+@keyframes wavePulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.splash__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: splashEntry 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.splash__logo {
+  width: clamp(180px, 40vw, 320px);
+  height: auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 16px 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  animation: logoPulse 2s ease-in-out infinite;
+}
+
+@keyframes splashEntry {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes logoPulse {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; }
+}
+
+/* Línea de pulso eléctrico debajo del logo */
+.splash__pulse {
+  margin-top: 1.5rem;
+  width: 80px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  animation: linePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes linePulse {
+  0%, 100% {
+    width: 40px;
+    opacity: 0.4;
+  }
+  50% {
+    width: 120px;
+    opacity: 1;
+  }
+}

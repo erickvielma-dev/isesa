@@ -1,0 +1,128 @@
+.clients {
+  background: var(--color-bg);
+}
+
+.clients__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.clients__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  transition: all var(--transition);
+  text-align: center;
+}
+
+.clients__card:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+.clients__logo-placeholder {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent-light), #dbeafe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clients__initials {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.clients__card h4 {
+  font-size: 1rem;
+  color: var(--color-primary);
+}
+
+.clients__category {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  background: var(--color-bg-alt);
+  padding: 0.2rem 0.75rem;
+  border-radius: 100px;
+}
+
+/* ---- Coverage ---- */
+.clients__coverage {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  padding: 2.5rem;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+}
+
+.clients__coverage-text {
+  flex: 1;
+}
+
+.clients__coverage-text h3 {
+  font-size: var(--fs-h3);
+  margin-bottom: 0.5rem;
+}
+
+.clients__coverage-text p {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.clients__regions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.clients__region {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition);
+}
+
+.clients__region:hover {
+  border-color: var(--color-secondary);
+  background: var(--color-accent-light);
+}
+
+@media (max-width: 900px) {
+  .clients__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .clients__coverage {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .clients__grid {
+    grid-template-columns: 1fr;
+  }
+}
