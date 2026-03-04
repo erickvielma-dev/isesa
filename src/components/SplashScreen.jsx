@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import logo from '../assets/logo_mejorado.png';
+import logo from '../assets/brand/logo_splash.png';
 import './SplashScreen.css';
 
 export default function SplashScreen({ onFinish }) {
@@ -7,7 +7,7 @@ export default function SplashScreen({ onFinish }) {
 
   useEffect(() => {
     const timer = setTimeout(() => setFadeOut(true), 1800);
-    const remove = setTimeout(() => onFinish(), 2400);
+    const remove = setTimeout(() => onFinish(), 2800);
     return () => {
       clearTimeout(timer);
       clearTimeout(remove);

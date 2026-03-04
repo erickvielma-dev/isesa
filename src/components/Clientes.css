@@ -1,12 +1,76 @@
 .clients {
   background: var(--color-bg);
+  overflow: hidden;
 }
 
-.clients__grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin-bottom: 3rem;
+/* ── Marquee ─────────────────────────────────────────────── */
+.clients__marquee-wrapper {
+  position: relative;
+  margin: 0 0 3rem;
+  overflow: hidden;
+}
+
+/* Gradient fades on left and right edges */
+.clients__marquee-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+.clients__marquee-fade--left {
+  left: 0;
+  background: linear-gradient(to right, var(--color-bg), transparent);
+}
+.clients__marquee-fade--right {
+  right: 0;
+  background: linear-gradient(to left, var(--color-bg), transparent);
+}
+
+.clients__marquee {
+  overflow: hidden;
+  padding: 0.5rem 0;
+}
+
+.clients__marquee-track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  animation: marqueeScroll 32s linear infinite;
+}
+
+.clients__marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.clients__marquee-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.clients__marquee-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.clients__marquee-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
 }
 
 .clients__card {
@@ -29,32 +93,25 @@
 }
 
 .clients__logo-placeholder {
-  width: 64px;
-  height: 64px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--color-accent-light), #dbeafe);
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-/* Cuando hay logo real: fondo blanco neutro */
-.clients__logo-placeholder:has(.clients__logo-img) {
-  background: #fff;
-  border: 1px solid #e5eaf1;
-}
-
 .clients__logo-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 6px;
+  padding: 4px;
 }
 
 .clients__initials {
   font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: var(--color-secondary);
 }
@@ -70,9 +127,14 @@
   background: var(--color-bg-alt);
   padding: 0.15rem 0.6rem;
   border-radius: 100px;
+  white-space: nowrap;
 }
 
 /* ---- Coverage ---- */
+.clients__post-marquee {
+  margin-top: 3rem;
+}
+
 .clients__coverage {
   display: flex;
   align-items: center;
@@ -82,8 +144,13 @@
   border-radius: var(--radius-lg);
 }
 
-.clients__coverage-text {
+/* Left column: title + text + region tags */
+.clients__coverage-left {
   flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .clients__coverage-text h3 {
@@ -100,43 +167,71 @@
 .clients__regions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  flex: 1;
-  justify-content: center;
+  gap: 0.6rem;
 }
 
 .clients__region {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.6rem 1.2rem;
+  padding: 0.5rem 1rem;
   background: var(--color-bg);
   border-radius: var(--radius-sm);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--color-primary);
   border: 1px solid var(--color-border);
   transition: all var(--transition);
+  cursor: default;
 }
 
-.clients__region:hover {
+.clients__region svg {
+  color: var(--color-secondary);
+  opacity: 0.5;
+  transition: opacity var(--transition);
+}
+
+.clients__region:hover,
+.clients__region.active {
   border-color: var(--color-secondary);
   background: var(--color-accent-light);
+  color: var(--color-secondary);
+}
+
+.clients__region:hover svg,
+.clients__region.active svg {
+  opacity: 1;
+}
+
+/* Right column: map */
+.clients__coverage-map {
+  flex: 1.2;
+  min-width: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mexico-map-svg {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.10));
 }
 
 @media (max-width: 900px) {
-  .clients__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
   .clients__coverage {
     flex-direction: column;
-    text-align: center;
     gap: 1.5rem;
+  }
+  .clients__coverage-map {
+    width: 100%;
   }
 }
 
 @media (max-width: 600px) {
-  .clients__grid {
-    grid-template-columns: 1fr;
+  .clients__marquee-fade {
+    width: 60px;
   }
 }

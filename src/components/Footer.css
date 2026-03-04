@@ -18,13 +18,11 @@
 }
 
 .footer__logo {
-  max-width: 200px;
+  max-width: 320px;
   height: auto;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 6px;
-  padding: 10px 20px;
   object-fit: contain;
   align-self: center;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
 }
 
 .footer__brand p {

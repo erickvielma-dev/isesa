@@ -1,5 +1,21 @@
+import { useState, useRef, useEffect, useCallback } from 'react';
 import './Servicios.css';
 import { useLanguage } from '../context/LanguageContext';
+import imgSistemasElectricos    from '../assets/servicios/Sistemas Electricos.jpeg';
+import imgSistemasElectromecan  from '../assets/servicios/Sistemas Electromecanicos.jpeg';
+import imgMantenimiento         from '../assets/servicios/Mantenimiento Preventivo.jpeg';
+import imgObraCivil             from '../assets/servicios/Construcción de Obra Civil.jpeg';
+import imgAlumbrado             from '../assets/servicios/Alumbrado y Electrificación.jpeg';
+import imgSupervision           from '../assets/servicios/Supervisión y Tramites.jpeg';
+
+const SERVICE_IMAGES = [
+  imgSistemasElectricos,
+  imgSistemasElectromecan,
+  imgMantenimiento,
+  imgObraCivil,
+  imgAlumbrado,
+  imgSupervision,
+];
 
 const SERVICE_ICONS = [
   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -24,6 +40,53 @@ const SERVICE_ICONS = [
 
 export default function Servicios() {
   const { t } = useLanguage();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState('next');
+  const touchStartX = useRef(null);
+
+  const total = t.services.items.length;
+  const isHovered = useRef(false);
+  const intervalRef = useRef(null);
+
+  const STEP = 2;
+  const pairs = Math.ceil(total / STEP);
+
+  const next = useCallback(() => {
+    setDirection('next');
+    setActiveIndex(i => (i + STEP) % total);
+  }, [total]);
+
+  const startInterval = useCallback(() => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      if (!isHovered.current) next();
+    }, 4000);
+  }, [next]);
+
+  const prev = () => {
+    setDirection('prev');
+    setActiveIndex(i => (i - STEP + total) % total);
+    startInterval();
+  };
+  const goTo = (pairIndex) => {
+    const newIndex = pairIndex * STEP;
+    setDirection(newIndex > activeIndex ? 'next' : 'prev');
+    setActiveIndex(newIndex);
+    startInterval();
+  };
+
+  useEffect(() => {
+    startInterval();
+    return () => clearInterval(intervalRef.current);
+  }, [startInterval]);
+
+  const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? next() : prev();
+    touchStartX.current = null;
+  };
 
   return (
     <section id="servicios" className="services section">
@@ -33,14 +96,68 @@ export default function Servicios() {
           <p>{t.services.subtitle}</p>
         </div>
 
-        <div className="services__grid">
-          {t.services.items.map((service, i) => (
-            <div key={i} className={`services__card card reveal delay-${i + 1}`}>
-              <div className="services__icon">{SERVICE_ICONS[i]}</div>
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
+        <div
+          className="services__carousel"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          onMouseEnter={() => { isHovered.current = true; }}
+          onMouseLeave={() => { isHovered.current = false; }}
+        >
+
+          {/* Main card area with flanking buttons */}
+          <div className="services__carousel-stage-wrap">
+            <button className="services__carousel-btn services__carousel-btn--prev" onClick={() => { prev(); startInterval(); }} aria-label="Anterior">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+
+            <div className="services__carousel-stage">
+
+              {/* Slides */}
+              <div
+                className="services__carousel-track"
+                style={{
+                  width: `${pairs * 100}%`,
+                  transform: `translateX(-${Math.floor(activeIndex / STEP) * (100 / pairs)}%)`
+                }}
+              >
+                {t.services.items.map((service, i) => (
+                  <div key={i} className="services__carousel-slide" style={{ width: `${100 / total}%` }}>
+                    <div className="services__carousel-slide-inner">
+                      <div className="services__carousel-slide-img">
+                        <img src={SERVICE_IMAGES[i]} alt={service.title} />
+                      </div>
+                      <div className="services__carousel-slide-body">
+                        <h3>{service.title}</h3>
+                        <p>{service.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
             </div>
-          ))}
+
+            <button className="services__carousel-btn services__carousel-btn--next" onClick={() => { next(); startInterval(); }} aria-label="Siguiente">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </button>
+          </div>
+
+          {/* Dots centered below */}
+          <div className="services__carousel-dots">
+            {Array.from({ length: pairs }, (_, i) => (
+              <button
+                key={i}
+                className={`services__carousel-dot${i === Math.floor(activeIndex / STEP) ? ' active' : ''}`}
+                onClick={() => goTo(i)}
+                aria-label={`Servicios ${i * STEP + 1}-${i * STEP + STEP}`}
+              />
+            ))}
+          </div>
+
         </div>
       </div>
     </section>

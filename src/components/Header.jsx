@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import logo from '../assets/logo_mejorado.png';
 import { useLanguage } from '../context/LanguageContext';
 import './Header.css';
 
@@ -40,13 +39,21 @@ export default function Header() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        // Collect all currently intersecting sections
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(`#${entry.target.id}`);
-          }
+          entry.target._isVisible = entry.isIntersecting;
         });
+
+        // Find the topmost visible section
+        for (const href of NAV_HREFS) {
+          const el = document.querySelector(href);
+          if (el && el._isVisible) {
+            setActiveSection(href);
+            break;
+          }
+        }
       },
-      { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' }
+      { threshold: 0.1, rootMargin: '-80px 0px -35% 0px' }
     );
 
     NAV_HREFS.forEach((href) => {
@@ -60,10 +67,10 @@ export default function Header() {
   const handleClick = (e, href) => {
     e.preventDefault();
     setMenuOpen(false);
+    setActiveSection(href);
     const target = document.querySelector(href);
     if (target) {
-      const offset = 80;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      const top = target.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({ top, behavior: 'smooth' });
     }
   };
@@ -137,7 +144,6 @@ export default function Header() {
 
         {/* Barra superior del panel — reemplaza visualmente al header */}
         <div className="header__mobile-topbar">
-          <img src={logo} alt="ISESA" className="header__mobile-logo" />
           <div className="header__mobile-topbar-controls">
             {/* Toggle de idioma — móvil */}
             <button

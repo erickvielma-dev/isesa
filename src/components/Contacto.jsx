@@ -3,7 +3,7 @@ import './Contacto.css';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Contacto() {
-  const { lang, t } = useLanguage();
+  const { t } = useLanguage();
   const c = t.contact;
 
   const [form, setForm] = useState({
@@ -46,121 +46,27 @@ export default function Contacto() {
 
     setStatus('sending');
 
-    const fechaSolicitud = new Date().toLocaleDateString(lang === 'es' ? 'es-MX' : 'en-US', {
+    const fecha = new Date().toLocaleDateString('es-MX', {
       year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit',
     });
-
-    const htmlBody = `
-<!DOCTYPE html>
-<html lang="es">
-<head><meta charset="UTF-8"/></head>
-<body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6f9;padding:32px 0;">
-    <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
-
-        <!-- Header -->
-        <tr>
-          <td style="background:linear-gradient(135deg,#0A2540 0%,#1B6EC2 100%);padding:36px 40px;text-align:center;">
-            <p style="margin:0 0 4px;color:rgba(255,255,255,0.7);font-size:12px;letter-spacing:2px;text-transform:uppercase;">Industries Supply Electric S.A. de C.V.</p>
-            <h1 style="margin:0;color:#ffffff;font-size:26px;font-weight:800;letter-spacing:-0.5px;">Nueva Solicitud de Cotización</h1>
-            <p style="margin:10px 0 0;color:rgba(255,255,255,0.65);font-size:13px;">${fechaSolicitud}</p>
-          </td>
-        </tr>
-
-        <!-- Badge servicio -->
-        <tr>
-          <td style="padding:24px 40px 0;text-align:center;">
-            <span style="display:inline-block;background:#EBF4FF;color:#1B6EC2;font-size:13px;font-weight:700;padding:6px 20px;border-radius:100px;letter-spacing:0.3px;">
-              ${form.servicio || 'Consulta General'}
-            </span>
-          </td>
-        </tr>
-
-        <!-- Datos del solicitante -->
-        <tr>
-          <td style="padding:28px 40px 8px;">
-            <h2 style="margin:0 0 16px;color:#0A2540;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #EBF4FF;padding-bottom:10px;">
-              Datos del Solicitante
-            </h2>
-            <table width="100%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td width="50%" style="padding:6px 12px 6px 0;vertical-align:top;">
-                  <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Nombre</p>
-                  <p style="margin:2px 0 0;font-size:15px;color:#0A2540;font-weight:600;">${form.nombre}</p>
-                </td>
-                <td width="50%" style="padding:6px 0 6px 12px;vertical-align:top;">
-                  <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Empresa</p>
-                  <p style="margin:2px 0 0;font-size:15px;color:#0A2540;font-weight:600;">${form.empresa || '—'}</p>
-                </td>
-              </tr>
-              <tr>
-                <td width="50%" style="padding:12px 12px 6px 0;vertical-align:top;">
-                  <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Correo Electrónico</p>
-                  <p style="margin:2px 0 0;font-size:15px;"><a href="mailto:${form.email}" style="color:#1B6EC2;text-decoration:none;font-weight:600;">${form.email}</a></p>
-                </td>
-                <td width="50%" style="padding:12px 0 6px 12px;vertical-align:top;">
-                  <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Teléfono</p>
-                  <p style="margin:2px 0 0;font-size:15px;color:#0A2540;font-weight:600;">${form.telefono || '—'}</p>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <!-- Mensaje -->
-        <tr>
-          <td style="padding:20px 40px 8px;">
-            <h2 style="margin:0 0 12px;color:#0A2540;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #EBF4FF;padding-bottom:10px;">
-              Descripción del Proyecto
-            </h2>
-            <div style="background:#f8fafc;border-left:4px solid #1B6EC2;border-radius:0 8px 8px 0;padding:16px 20px;">
-              <p style="margin:0;font-size:14px;color:#334155;line-height:1.75;white-space:pre-wrap;">${form.mensaje}</p>
-            </div>
-          </td>
-        </tr>
-
-        <!-- CTA responder -->
-        <tr>
-          <td style="padding:28px 40px;text-align:center;">
-            <a href="mailto:${form.email}?subject=Re: Solicitud de Cotización — ${encodeURIComponent(form.nombre)}"
-               style="display:inline-block;background:linear-gradient(135deg,#1B6EC2,#4DA3FF);color:#ffffff;font-size:14px;font-weight:700;padding:14px 36px;border-radius:8px;text-decoration:none;letter-spacing:0.3px;">
-              Responder al Solicitante
-            </a>
-          </td>
-        </tr>
-
-        <!-- Footer -->
-        <tr>
-          <td style="background:#f8fafc;padding:20px 40px;border-top:1px solid #e2e8f0;text-align:center;">
-            <p style="margin:0;font-size:11px;color:#94a3b8;line-height:1.6;">
-              Este correo fue generado automáticamente desde el formulario de contacto de <strong style="color:#64748b;">isesa.mx</strong><br/>
-              Calle Escuadrón de la Naval #394, Col. Jesús Cabello, Saltillo, Coahuila, México
-            </p>
-          </td>
-        </tr>
-
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`;
 
     try {
       const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          _subject: `📋 Cotización — ${form.nombre}${form.empresa ? ' · ' + form.empresa : ''} | ${form.servicio || 'General'}`,
-          _replyto: form.email,
-          _html: htmlBody,
-          'Fecha': fechaSolicitud,
+          _subject: `Solicitud de contacto - ${form.nombre}${form.empresa ? ' | ' + form.empresa : ''}`,
+          '-- DATOS DEL SOLICITANTE --': '--------------------------------',
           'Nombre': form.nombre,
-          'Empresa': form.empresa || '—',
-          'Correo': form.email,
-          'Teléfono': form.telefono || '—',
-          'Servicio': form.servicio || 'No especificado',
+          'Empresa': form.empresa || 'No especificada',
+          'Correo electronico': form.email,
+          'Telefono': form.telefono || 'No proporcionado',
+          'Servicio de interes': form.servicio || 'Consulta general',
+          '-- MENSAJE --': '--------------------------------',
           'Mensaje': form.mensaje,
+          '-- INFORMACION --': '--------------------------------',
+          'Fecha de envio': fecha,
+          'Origen': 'Formulario de contacto - isesa.mx',
         }),
       });
 

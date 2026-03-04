@@ -1,4 +1,4 @@
-import logo from '../assets/logo_mejorado.png';
+import logo from '../assets/brand/logo_splash.png';
 import './Footer.css';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -10,8 +10,7 @@ export default function Footer() {
     e.preventDefault();
     const target = document.querySelector(href);
     if (target) {
-      const offset = 80;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      const top = target.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({ top, behavior: 'smooth' });
     }
   };

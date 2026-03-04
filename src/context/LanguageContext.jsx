@@ -130,6 +130,7 @@ const translations = {
         { name: 'SECOVI', category: 'Sector Gobierno' },
         { name: 'Saint Gobain', category: 'Sector Industrial' },
         { name: 'UFI Filter', category: 'Sector Industrial' },
+        { name: 'Lear', category: 'Sector Automotriz' },
       ],
     },
     projects: {
@@ -386,6 +387,7 @@ const translations = {
         { name: 'SECOVI', category: 'Government Sector' },
         { name: 'Saint Gobain', category: 'Industrial Sector' },
         { name: 'UFI Filter', category: 'Industrial Sector' },
+        { name: 'Lear', category: 'Automotive Sector' },
       ],
     },
     projects: {

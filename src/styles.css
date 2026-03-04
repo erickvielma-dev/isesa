@@ -66,6 +66,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -115,6 +116,10 @@ h1, h2, h3, h4, h5, h6 {
 /* ---------- Section ---------- */
 .section {
   padding: var(--section-padding);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .section-header {

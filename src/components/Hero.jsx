@@ -1,5 +1,6 @@
 import './Hero.css';
-import bgImage from '../assets/background.jpg';
+import bgImage from '../assets/hero/background.jpg';
+import logoSplash from '../assets/brand/logo_splash.png';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Hero() {
@@ -9,8 +10,7 @@ export default function Hero() {
     e.preventDefault();
     const target = document.querySelector(href);
     if (target) {
-      const offset = 80;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      const top = target.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({ top, behavior: 'smooth' });
     }
   };
@@ -28,7 +28,7 @@ export default function Hero() {
       </div>
 
       <div className="hero__content container">
-        <span className="hero__badge">Industries Supply Electric S.A. de C.V.</span>
+        <img src={logoSplash} alt="ISESA" className="hero__splash-logo" />
         <h1 className="hero__title">
           {t.hero.title1} <span className="hero__highlight">{t.hero.titleHighlight}</span>
           <br />{t.hero.title2}

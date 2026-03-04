@@ -1,9 +1,9 @@
 import './Proyectos.css';
 import { useLanguage } from '../context/LanguageContext';
-import imgObra      from '../assets/Obra civil.jpg';
-import imgSub       from '../assets/Subestación.jpg';
-import imgCabina    from '../assets/Montaje de Cabina de pintura.jpg';
-import imgLobby     from '../assets/Remodelación de Lobbys.jpg';
+import imgObra      from '../assets/proyectos/Obra civil.jpg';
+import imgSub       from '../assets/proyectos/Subestación.jpg';
+import imgCabina    from '../assets/proyectos/Montaje de Cabina de pintura.jpg';
+import imgLobby     from '../assets/proyectos/Remodelación de Lobbys.jpg';
 
 const PROJECT_IMAGES = [imgObra, imgSub, imgCabina, imgLobby];
 

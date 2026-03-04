@@ -105,6 +105,11 @@
   display: flex;
 }
 
+/* ---- Hamburger — oculto por defecto, visible en móvil ---- */
+.header__burger--mobile {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .header__nav--desktop {
     display: none;
@@ -113,7 +118,7 @@
     display: flex;
   }
   .header__inner {
-    justify-content: flex-end;
+    justify-content: space-between;
   }
 }
 
@@ -152,10 +157,6 @@
 }
 
 /* ---- Hamburger ---- */
-.header__burger--mobile {
-  display: none;
-}
-
 .header__burger {
   flex-direction: column;
   gap: 5px;
@@ -313,10 +314,8 @@
 .header__mobile-logo {
   height: 32px;
   width: auto;
-  background: rgba(255, 255, 255, 0.92);
-  border-radius: 5px;
-  padding: 4px 10px;
   object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
 .header__mobile-close {
@@ -458,6 +457,19 @@
 
 
 
+
+/* Brand logo img */
+.header__brand-img {
+  height: 34px;
+  width: auto;
+  object-fit: contain;
+  transition: opacity var(--transition), filter var(--transition);
+  filter: brightness(0) invert(1);
+}
+
+.header--scrolled .header__brand-img {
+  filter: none;
+}
 
 /* ---- Responsive: oculta nombre completo en móvil ---- */
 @media (max-width: 768px) {
