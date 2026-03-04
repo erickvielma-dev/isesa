@@ -1,4 +1,5 @@
 import './Hero.css';
+import bgImage from '../assets/background.jpg';
 
 export default function Hero() {
   const handleClick = (e, href) => {
@@ -13,8 +14,10 @@ export default function Hero() {
 
   return (
     <section id="inicio" className="hero">
-      {/* Patrón de fondo */}
+      {/* Fondo fotográfico con overlays */}
       <div className="hero__bg">
+        <div className="hero__photo" style={{ backgroundImage: `url(${bgImage})` }} />
+        <div className="hero__overlay" />
         <div className="hero__grid-pattern" />
         <div className="hero__gradient" />
         <div className="hero__glow hero__glow--1" />

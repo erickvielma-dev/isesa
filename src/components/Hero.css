@@ -12,23 +12,52 @@
 .hero__bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, #050d1a 0%, #0A2540 40%, #0F3460 70%, #1B4D8C 100%);
   z-index: 0;
+  overflow: hidden;
+}
+
+/* Foto real con efecto Ken Burns */
+.hero__photo {
+  position: absolute;
+  inset: -5%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: kenBurns 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes kenBurns {
+  from { transform: scale(1) translate(0, 0); }
+  to   { transform: scale(1.08) translate(-1%, 1%); }
+}
+
+/* Overlay oscuro sobre la foto — mantiene la identidad de marca */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(5, 13, 26, 0.87)  0%,
+    rgba(10, 37, 64, 0.78) 40%,
+    rgba(15, 52, 96, 0.68) 75%,
+    rgba(27, 77, 140, 0.55) 100%
+  );
 }
 
 .hero__grid-pattern {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(77, 163, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(77, 163, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(77, 163, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 163, 255, 0.05) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
 .hero__gradient {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 120%, rgba(27, 110, 194, 0.2) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 50% 110%, rgba(77, 163, 255, 0.12) 0%, transparent 65%);
 }
 
 .hero__glow {

@@ -9,11 +9,95 @@
   align-items: start;
 }
 
+/* ---- Mapa ---- */
+.contact__map {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: 220px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.contact__map iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: grayscale(20%) contrast(1.05);
+  transition: filter 0.3s ease;
+}
+
+.contact__map:hover iframe {
+  filter: grayscale(0%) contrast(1);
+}
+
+.contact__map-link,
+.contact__info-card a.contact__map-link {
+  position: absolute;
+  bottom: 0.65rem;
+  right: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(10, 37, 64, 0.88);
+  backdrop-filter: blur(6px);
+  color: #fff !important;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.contact__map-link:hover,
+.contact__info-card a.contact__map-link:hover {
+  background: var(--color-secondary);
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
 /* ---- Info Cards ---- */
 .contact__info {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+}
+
+/* Card de ubicación: icono arriba, contenido en columna completa */
+.contact__info-card--location {
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact__info-card--location .contact__info-icon {
+  flex-shrink: 0;
+}
+
+.contact__info-location {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.contact__info-location h4 {
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  margin-bottom: 0;
+}
+
+.contact__info-location p {
+  font-size: 0.88rem;
+  color: var(--color-text-light);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Mapa dentro de la card de ubicación */
+.contact__info-card--location .contact__map {
+  height: 200px;
+  margin-top: 0.4rem;
 }
 
 .contact__info-card {
@@ -171,17 +255,75 @@
 }
 
 .contact__whatsapp {
-  background: #25D366;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0 1.6rem;
+  height: 52px;
+  background: linear-gradient(135deg, #25D366 0%, #1aad52 100%);
   color: #fff;
   border: none;
-  font-weight: 600;
-  transition: background 0.2s;
+  border-radius: 14px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(37, 211, 102, 0.35);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Brillo deslizante al hacer hover */
+.contact__whatsapp::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.45s ease;
+}
+
+.contact__whatsapp:hover::before {
+  left: 130%;
 }
 
 .contact__whatsapp:hover {
-  background: #1ebe57;
-  color: #fff;
+  background: linear-gradient(135deg, #28e870 0%, #1aad52 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(37, 211, 102, 0.5);
 }
+
+.contact__whatsapp:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 12px rgba(37, 211, 102, 0.3);
+}
+
+/* Icono con pulso sutil */
+.contact__whatsapp-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: waPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes waPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.15); }
+}
+
+/* Texto del botón */
+.contact__whatsapp-label {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+
 
 @media (max-width: 900px) {
   .contact__grid {

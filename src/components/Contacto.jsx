@@ -59,20 +59,118 @@ export default function Contacto() {
       year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit',
     });
 
+    const htmlBody = `
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"/></head>
+<body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6f9;padding:32px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:linear-gradient(135deg,#0A2540 0%,#1B6EC2 100%);padding:36px 40px;text-align:center;">
+            <p style="margin:0 0 4px;color:rgba(255,255,255,0.7);font-size:12px;letter-spacing:2px;text-transform:uppercase;">Industries Supply Electric S.A. de C.V.</p>
+            <h1 style="margin:0;color:#ffffff;font-size:26px;font-weight:800;letter-spacing:-0.5px;">Nueva Solicitud de Cotización</h1>
+            <p style="margin:10px 0 0;color:rgba(255,255,255,0.65);font-size:13px;">${fechaSolicitud}</p>
+          </td>
+        </tr>
+
+        <!-- Badge servicio -->
+        <tr>
+          <td style="padding:24px 40px 0;text-align:center;">
+            <span style="display:inline-block;background:#EBF4FF;color:#1B6EC2;font-size:13px;font-weight:700;padding:6px 20px;border-radius:100px;letter-spacing:0.3px;">
+              ${form.servicio || 'Consulta General'}
+            </span>
+          </td>
+        </tr>
+
+        <!-- Datos del solicitante -->
+        <tr>
+          <td style="padding:28px 40px 8px;">
+            <h2 style="margin:0 0 16px;color:#0A2540;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #EBF4FF;padding-bottom:10px;">
+              Datos del Solicitante
+            </h2>
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="50%" style="padding:6px 12px 6px 0;vertical-align:top;">
+                  <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Nombre</p>
+                  <p style="margin:2px 0 0;font-size:15px;color:#0A2540;font-weight:600;">${form.nombre}</p>
+                </td>
+                <td width="50%" style="padding:6px 0 6px 12px;vertical-align:top;">
+                  <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Empresa</p>
+                  <p style="margin:2px 0 0;font-size:15px;color:#0A2540;font-weight:600;">${form.empresa || '—'}</p>
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" style="padding:12px 12px 6px 0;vertical-align:top;">
+                  <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Correo Electrónico</p>
+                  <p style="margin:2px 0 0;font-size:15px;"><a href="mailto:${form.email}" style="color:#1B6EC2;text-decoration:none;font-weight:600;">${form.email}</a></p>
+                </td>
+                <td width="50%" style="padding:12px 0 6px 12px;vertical-align:top;">
+                  <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Teléfono</p>
+                  <p style="margin:2px 0 0;font-size:15px;color:#0A2540;font-weight:600;">${form.telefono || '—'}</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Mensaje -->
+        <tr>
+          <td style="padding:20px 40px 8px;">
+            <h2 style="margin:0 0 12px;color:#0A2540;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #EBF4FF;padding-bottom:10px;">
+              Descripción del Proyecto
+            </h2>
+            <div style="background:#f8fafc;border-left:4px solid #1B6EC2;border-radius:0 8px 8px 0;padding:16px 20px;">
+              <p style="margin:0;font-size:14px;color:#334155;line-height:1.75;white-space:pre-wrap;">${form.mensaje}</p>
+            </div>
+          </td>
+        </tr>
+
+        <!-- CTA responder -->
+        <tr>
+          <td style="padding:28px 40px;text-align:center;">
+            <a href="mailto:${form.email}?subject=Re: Solicitud de Cotización — ${encodeURIComponent(form.nombre)}"
+               style="display:inline-block;background:linear-gradient(135deg,#1B6EC2,#4DA3FF);color:#ffffff;font-size:14px;font-weight:700;padding:14px 36px;border-radius:8px;text-decoration:none;letter-spacing:0.3px;">
+              Responder al Solicitante
+            </a>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="background:#f8fafc;padding:20px 40px;border-top:1px solid #e2e8f0;text-align:center;">
+            <p style="margin:0;font-size:11px;color:#94a3b8;line-height:1.6;">
+              Este correo fue generado automáticamente desde el formulario de contacto de <strong style="color:#64748b;">isesa.mx</strong><br/>
+              Calle Escuadrón de la Naval #394, Col. Jesús Cabello, Saltillo, Coahuila, México
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
     try {
       const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          _subject: `Solicitud de Cotización — ${form.nombre} | ${form.servicio || 'General'}`,
+          _subject: `📋 Cotización — ${form.nombre}${form.empresa ? ' · ' + form.empresa : ''} | ${form.servicio || 'General'}`,
           _replyto: form.email,
-          '01. Fecha de solicitud': fechaSolicitud,
-          '02. Nombre del solicitante': form.nombre,
-          '03. Empresa': form.empresa || 'No especificada',
-          '04. Correo electrónico': form.email,
-          '05. Teléfono de contacto': form.telefono || 'No proporcionado',
-          '06. Servicio solicitado': form.servicio || 'No especificado',
-          '07. Descripción del proyecto': form.mensaje,
+          _html: htmlBody,
+          // Campos de texto plano como respaldo
+          'Fecha': fechaSolicitud,
+          'Nombre': form.nombre,
+          'Empresa': form.empresa || '—',
+          'Correo': form.email,
+          'Teléfono': form.telefono || '—',
+          'Servicio': form.servicio || 'No especificado',
+          'Mensaje': form.mensaje,
         }),
       });
 
@@ -105,15 +203,41 @@ export default function Contacto() {
         <div className="contact__grid">
           {/* Información */}
           <div className="contact__info reveal delay-1">
-            <div className="contact__info-card">
+            <div className="contact__info-card contact__info-card--location">
               <div className="contact__info-icon">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
-              <div>
+              <div className="contact__info-location">
                 <h4>Ubicación</h4>
                 <p>Calle Escuadrón de la Naval #394,<br/>Col. Jesús Cabello, Saltillo, Coahuila, México</p>
+                {/* Mapa de Google Maps */}
+                <div className="contact__map">
+                  <iframe
+                    title="Ubicación ISESA"
+                    src="https://maps.google.com/maps?q=25.3994896,-100.9821319&z=17&ie=UTF8&iwloc=&output=embed"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                  <a
+                    href="https://maps.app.goo.gl/otvfMn9k6H4vAkEC9"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact__map-link"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                      <polyline points="15 3 21 3 21 9"/>
+                      <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                    Abrir en Google Maps
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -158,6 +282,7 @@ export default function Contacto() {
                 <p>Lunes a Viernes: 8:00 – 18:00<br/>Sábado: 9:00 – 14:00</p>
               </div>
             </div>
+
           </div>
 
           {/* Formulario */}
@@ -271,27 +396,40 @@ export default function Contacto() {
               </button>
               <button
                 type="button"
-                className="btn btn-secondary contact__whatsapp"
+                className="contact__whatsapp"
                 onClick={() => {
                   const errs = validate();
                   if (Object.keys(errs).length > 0) {
                     setErrors(errs);
                     return;
                   }
-                  const msg =
-                    `Hola, mi nombre es ${form.nombre}${form.empresa ? ' de ' + form.empresa : ''}.\n` +
-                    `Solicitar información de sus servicios, mi información es:\n` +
-                    (form.servicio ? `Servicio de interés: ${form.servicio}\n` : '') +
-                    (form.telefono ? `Teléfono: ${form.telefono}\n` : '') +
-                    `Correo electrónico: ${form.email}\n` +
-                    `Mensaje: ${form.mensaje}`;
+                  const lineas = [
+                    `Hola, buenos días. Mi nombre es *${form.nombre}*${form.empresa ? ', de *' + form.empresa + '*' : ''}.`,
+                    `Me comunico a través del sitio web de ISESA para solicitar información sobre sus servicios.`,
+                    ``,
+                    `*── Solicitud ──*`,
+                    form.servicio ? `📌 *Servicio de interés:* ${form.servicio}` : null,
+                    ``,
+                    `*── Datos de contacto ──*`,
+                    `📧 *Correo:* ${form.email}`,
+                    form.telefono ? `📞 *Teléfono:* ${form.telefono}` : null,
+                    ``,
+                    `*── Descripción del proyecto ──*`,
+                    form.mensaje,
+                    ``,
+                    `Quedo en espera de su respuesta. Gracias.`,
+                  ].filter(l => l !== null).join('\n');
+                  const msg = lineas;
                   window.open(`https://wa.me/528441223339?text=${encodeURIComponent(msg)}`,'_blank');
                 }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21.7 20.3l-3.1-3.1c1.2-1.5 1.9-3.4 1.9-5.4C20.5 6.5 16.5 2.5 11.5 2.5S2.5 6.5 2.5 11.5c0 2 .7 3.9 1.9 5.4l-3.1 3.1c-.2.2-.2.5 0 .7.1.1.2.1.4.1h5.6c.3 0 .5-.2.5-.5v-1.6c0-.3-.2-.5-.5-.5H5.1c-.1 0-.2-.1-.2-.2l2.2-2.2c1.5 1.2 3.4 1.9 5.4 1.9 5 0 9-4 9-9 0-2-.7-3.9-1.9-5.4l2.2-2.2c.1-.1.1-.2.1-.4 0-.2-.1-.3-.2-.4z"/>
-                </svg>
-                WhatsApp
+                {/* Icono oficial WhatsApp */}
+                <span className="contact__whatsapp-icon">
+                  <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.002 3C9.374 3 4 8.373 4 15.001c0 2.184.592 4.23 1.625 5.985L4 29l8.23-1.598A11.94 11.94 0 0 0 16.002 28c6.627 0 12-5.373 12-12.001C28.002 8.373 22.63 3 16.002 3zm0 21.9a9.87 9.87 0 0 1-5.03-1.376l-.36-.214-3.733.726.756-3.64-.236-.373A9.863 9.863 0 0 1 6.1 15c0-5.46 4.44-9.9 9.902-9.9C21.464 5.1 25.9 9.54 25.9 15c0 5.46-4.436 9.9-9.898 9.9zm5.43-7.41c-.298-.149-1.762-.87-2.035-.968-.273-.1-.472-.149-.67.149-.198.297-.77.968-.943 1.167-.174.198-.347.223-.645.074-.298-.149-1.258-.464-2.396-1.48-.886-.79-1.484-1.765-1.658-2.063-.174-.297-.019-.458.13-.606.134-.133.298-.347.447-.52.15-.174.199-.298.298-.497.1-.198.05-.372-.025-.52-.075-.15-.67-1.614-.918-2.21-.242-.579-.487-.5-.67-.51l-.57-.01c-.198 0-.52.074-.793.372-.273.297-1.04 1.017-1.04 2.48 0 1.463 1.065 2.876 1.213 3.075.149.198 2.095 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.117.571-.085 1.762-.72 2.01-1.416.249-.695.249-1.29.174-1.416-.074-.124-.272-.198-.57-.347z"/>
+                  </svg>
+                </span>
+                <span className="contact__whatsapp-label">WhatsApp</span>
               </button>
             </div>
 
