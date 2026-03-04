@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import logoSplash from '../assets/brand/logo_splash.png';
+import logoGris from '../assets/brand/Logo_gris.png';
 import { useLanguage } from '../context/LanguageContext';
 import './Header.css';
 
@@ -87,6 +89,16 @@ export default function Header() {
         className={`header ${scrolled ? 'header--scrolled' : ''} ${menuOpen ? 'header--menu-open' : ''}`}
       >
         <div className="header__inner container">
+          {/* Logo móvil — solo visible en mobile */}
+          <a href="#inicio" className="header__mobile-brand" onClick={(e) => handleClick(e, '#inicio')}>
+            <img src={scrolled ? logoGris : logoSplash} alt="ISESA" className="header__mobile-brand-img" />
+          </a>
+
+          {/* Logo escritorio — visible al hacer scroll */}
+          <a href="#inicio" className="header__desktop-brand" onClick={(e) => handleClick(e, '#inicio')}>
+            <img src={logoGris} alt="ISESA" className="header__desktop-brand-img" />
+          </a>
+
           {/* Navegación escritorio */}
           <nav className="header__nav header__nav--desktop">
             {NAV_LINKS.map(({ label, href }) => (
@@ -144,6 +156,7 @@ export default function Header() {
 
         {/* Barra superior del panel — reemplaza visualmente al header */}
         <div className="header__mobile-topbar">
+          <img src={logoSplash} alt="ISESA" className="header__mobile-topbar-logo" />
           <div className="header__mobile-topbar-controls">
             {/* Toggle de idioma — móvil */}
             <button

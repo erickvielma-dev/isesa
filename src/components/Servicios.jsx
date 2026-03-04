@@ -42,13 +42,14 @@ export default function Servicios() {
   const { t } = useLanguage();
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState('next');
+  const [stepSize, setStepSize] = useState(() => window.innerWidth < 768 ? 1 : 2);
   const touchStartX = useRef(null);
 
   const total = t.services.items.length;
   const isHovered = useRef(false);
   const intervalRef = useRef(null);
 
-  const STEP = 2;
+  const STEP = stepSize;
   const pairs = Math.ceil(total / STEP);
 
   const next = useCallback(() => {
@@ -79,6 +80,16 @@ export default function Servicios() {
     startInterval();
     return () => clearInterval(intervalRef.current);
   }, [startInterval]);
+
+  useEffect(() => {
+    const onResize = () => {
+      const newStep = window.innerWidth < 768 ? 1 : 2;
+      setStepSize(newStep);
+      setActiveIndex(0);
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
   const onTouchEnd = (e) => {

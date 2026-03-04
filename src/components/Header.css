@@ -100,6 +100,32 @@
   gap: 0.25rem;
 }
 
+/* Logo móvil — oculto en escritorio */
+.header__mobile-brand {
+  display: none;
+}
+
+/* Logo escritorio — oculto en banner, visible al hacer scroll */
+.header__desktop-brand {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+}
+
+.header--scrolled .header__desktop-brand {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.header__desktop-brand-img {
+  height: 38px;
+  width: auto;
+}
+
 /* Ocultar nav de escritorio en móvil, mostrar burger */
 .header__nav--desktop {
   display: flex;
@@ -119,6 +145,24 @@
   }
   .header__inner {
     justify-content: space-between;
+  }
+  .header__desktop-brand {
+    display: none;
+  }
+  .header__mobile-brand {
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .header--scrolled .header__mobile-brand {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .header__mobile-brand-img {
+    height: 36px;
+    width: auto;
   }
 }
 
@@ -316,6 +360,12 @@
   width: auto;
   object-fit: contain;
   filter: brightness(0) invert(1);
+}
+
+.header__mobile-topbar-logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
 }
 
 .header__mobile-close {

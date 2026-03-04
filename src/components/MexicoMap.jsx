@@ -45,8 +45,8 @@ export default function MexicoMap({ hoveredState, onStateHover }) {
         {paths.map((p) => {
           const fill = stateColor(p.name, hoveredState);
           const interactive = isCoverage(p.name);
+          const key = p.id || p.name;
           const sharedProps = {
-            key: p.id || p.name,
             fill,
             style: {
               transition: 'fill 0.25s ease',
@@ -61,9 +61,9 @@ export default function MexicoMap({ hoveredState, onStateHover }) {
           };
 
           if (p.tag === 'polygon') {
-            return <polygon {...sharedProps} points={p.points} />;
+            return <polygon key={key} {...sharedProps} points={p.points} />;
           }
-          return <path {...sharedProps} d={p.d} />;
+          return <path key={key} {...sharedProps} d={p.d} />;
         })}
       </g>
     </svg>
