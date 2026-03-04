@@ -1,7 +1,10 @@
 import './Hero.css';
 import bgImage from '../assets/background.jpg';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   const handleClick = (e, href) => {
     e.preventDefault();
     const target = document.querySelector(href);
@@ -27,30 +30,26 @@ export default function Hero() {
       <div className="hero__content container">
         <span className="hero__badge">Industries Supply Electric S.A. de C.V.</span>
         <h1 className="hero__title">
-          Transmitiendo <span className="hero__highlight">Energía</span>
-          <br />a tus Proyectos
+          {t.hero.title1} <span className="hero__highlight">{t.hero.titleHighlight}</span>
+          <br />{t.hero.title2}
         </h1>
-        <p className="hero__subtitle">
-          Soluciones integrales en instalaciones eléctricas, sistemas electromecánicos y construcción de obra civil
-          para los sectores industrial, comercial y bancario a nivel nacional.
-        </p>
-
+        <p className="hero__subtitle">{t.hero.subtitle}</p>
 
         {/* Stats rápidos */}
         <div className="hero__stats">
           <div className="hero__stat">
-            <span className="hero__stat-number">+20</span>
-            <span className="hero__stat-label">Años de experiencia</span>
+            <span className="hero__stat-number">{t.hero.stat1Number}</span>
+            <span className="hero__stat-label">{t.hero.stat1Label}</span>
           </div>
           <div className="hero__stat-divider" />
           <div className="hero__stat">
-            <span className="hero__stat-number">+500</span>
-            <span className="hero__stat-label">Proyectos realizados</span>
+            <span className="hero__stat-number">{t.hero.stat2Number}</span>
+            <span className="hero__stat-label">{t.hero.stat2Label}</span>
           </div>
           <div className="hero__stat-divider" />
           <div className="hero__stat">
-            <span className="hero__stat-number">5</span>
-            <span className="hero__stat-label">Estados de cobertura</span>
+            <span className="hero__stat-number">{t.hero.stat3Number}</span>
+            <span className="hero__stat-label">{t.hero.stat3Label}</span>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useScrollReveal } from './hooks/useScrollReveal';
+import { LanguageProvider } from './context/LanguageContext';
 
 import SplashScreen from './components/SplashScreen';
 import Header from './components/Header';
@@ -23,7 +24,7 @@ export default function App() {
   useScrollReveal(showSplash);
 
   return (
-    <>
+    <LanguageProvider>
       {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
       <Header />
       <main>
@@ -36,6 +37,6 @@ export default function App() {
         <Contacto />
       </main>
       <Footer />
-    </>
+    </LanguageProvider>
   );
 }

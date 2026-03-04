@@ -24,6 +24,7 @@
   border-radius: 6px;
   padding: 10px 20px;
   object-fit: contain;
+  align-self: center;
 }
 
 .footer__brand p {

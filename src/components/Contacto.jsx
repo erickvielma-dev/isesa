@@ -1,17 +1,11 @@
 import { useState } from 'react';
 import './Contacto.css';
-
-const SERVICE_OPTIONS = [
-  'Instalaciones Eléctricas',
-  'Sistemas Electromecánicos',
-  'Construcción de Obra Civil',
-  'Mantenimiento Preventivo',
-  'Remodelaciones',
-  'Trámites ante CFE',
-  'Otro',
-];
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Contacto() {
+  const { lang, t } = useLanguage();
+  const c = t.contact;
+
   const [form, setForm] = useState({
     nombre: '',
     empresa: '',
@@ -24,18 +18,15 @@ export default function Contacto() {
   const [status, setStatus] = useState(null); // null | 'sending' | 'success' | 'error'
 
   // ⚡ Configura tu Formspree Form ID aquí:
-  // 1. Crea una cuenta gratis en https://formspree.io
-  // 2. Crea un formulario nuevo y pon L_isesa@yahoo.com.mx como destino
-  // 3. Copia el Form ID (ej: "xrgvabcd") y pégalo abajo
   const FORMSPREE_ID = 'mgoljjqn';
 
   const validate = () => {
     const errs = {};
-    if (!form.nombre.trim()) errs.nombre = 'El nombre es requerido';
-    if (!form.email.trim()) errs.email = 'El correo electrónico es requerido';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = 'Ingrese un correo válido';
-    if (!form.mensaje.trim()) errs.mensaje = 'El mensaje es requerido';
-    if (form.telefono && !/^[\d\s\-+()]{7,20}$/.test(form.telefono)) errs.telefono = 'Número de teléfono inválido';
+    if (!form.nombre.trim()) errs.nombre = c.errName;
+    if (!form.email.trim()) errs.email = c.errEmail;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = c.errEmailInvalid;
+    if (!form.mensaje.trim()) errs.mensaje = c.errMessage;
+    if (form.telefono && !/^[\d\s\-+()]{7,20}$/.test(form.telefono)) errs.telefono = c.errPhone;
     return errs;
   };
 
@@ -55,7 +46,7 @@ export default function Contacto() {
 
     setStatus('sending');
 
-    const fechaSolicitud = new Date().toLocaleDateString('es-MX', {
+    const fechaSolicitud = new Date().toLocaleDateString(lang === 'es' ? 'es-MX' : 'en-US', {
       year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit',
     });
 
@@ -163,7 +154,6 @@ export default function Contacto() {
           _subject: `📋 Cotización — ${form.nombre}${form.empresa ? ' · ' + form.empresa : ''} | ${form.servicio || 'General'}`,
           _replyto: form.email,
           _html: htmlBody,
-          // Campos de texto plano como respaldo
           'Fecha': fechaSolicitud,
           'Nombre': form.nombre,
           'Empresa': form.empresa || '—',
@@ -193,11 +183,8 @@ export default function Contacto() {
     <section id="contacto" className="contact section">
       <div className="container">
         <div className="section-header reveal">
-          <h2>Contacto</h2>
-          <p>
-            ¿Tiene un proyecto en puerta? Contáctenos y con gusto le elaboraremos
-            una propuesta técnica y económica a la medida, sin compromiso.
-          </p>
+          <h2>{c.title}</h2>
+          <p>{c.subtitle}</p>
         </div>
 
         <div className="contact__grid">
@@ -210,9 +197,10 @@ export default function Contacto() {
                 </svg>
               </div>
               <div className="contact__info-location">
-                <h4>Ubicación</h4>
-                <p>Calle Escuadrón de la Naval #394,<br/>Col. Jesús Cabello, Saltillo, Coahuila, México</p>
-                {/* Mapa de Google Maps */}
+                <h4>{c.locationTitle}</h4>
+                <p>{c.locationAddress.split('\n').map((line, i) => (
+                  <span key={i}>{line}{i === 0 && <br />}</span>
+                ))}</p>
                 <div className="contact__map">
                   <iframe
                     title="Ubicación ISESA"
@@ -235,7 +223,7 @@ export default function Contacto() {
                       <polyline points="15 3 21 3 21 9"/>
                       <line x1="10" y1="14" x2="21" y2="3"/>
                     </svg>
-                    Abrir en Google Maps
+                    {c.openMaps}
                   </a>
                 </div>
               </div>
@@ -248,7 +236,7 @@ export default function Contacto() {
                 </svg>
               </div>
               <div>
-                <h4>Correo Electrónico</h4>
+                <h4>{c.emailTitle}</h4>
                 <p>
                   <a href="mailto:L_isesa@yahoo.com.mx">L_isesa@yahoo.com.mx</a><br/>
                   <a href="mailto:sip.vigr@yahoo.com.mx">sip.vigr@yahoo.com.mx</a>
@@ -263,7 +251,7 @@ export default function Contacto() {
                 </svg>
               </div>
               <div>
-                <h4>Teléfono</h4>
+                <h4>{c.phoneTitle}</h4>
                 <p>
                   <a href="tel:+528441122424">844 112 2424</a><br/>
                   <a href="tel:+528441122488">844 112 2488</a>
@@ -278,23 +266,24 @@ export default function Contacto() {
                 </svg>
               </div>
               <div>
-                <h4>Horario de Atención</h4>
-                <p>Lunes a Viernes: 8:00 – 18:00<br/>Sábado: 9:00 – 14:00</p>
+                <h4>{c.scheduleTitle}</h4>
+                <p>{c.scheduleText.split('\n').map((line, i) => (
+                  <span key={i}>{line}{i === 0 && <br />}</span>
+                ))}</p>
               </div>
             </div>
-
           </div>
 
           {/* Formulario */}
           <form className="contact__form reveal delay-2" onSubmit={handleSubmit} noValidate>
             <div className="contact__form-row">
               <div className="contact__field">
-                <label htmlFor="nombre">Nombre *</label>
+                <label htmlFor="nombre">{c.labelName}</label>
                 <input
                   id="nombre"
                   name="nombre"
                   type="text"
-                  placeholder="Su nombre completo"
+                  placeholder={c.placeholderName}
                   value={form.nombre}
                   onChange={handleChange}
                   className={errors.nombre ? 'error' : ''}
@@ -302,12 +291,12 @@ export default function Contacto() {
                 {errors.nombre && <span className="contact__error">{errors.nombre}</span>}
               </div>
               <div className="contact__field">
-                <label htmlFor="empresa">Empresa</label>
+                <label htmlFor="empresa">{c.labelCompany}</label>
                 <input
                   id="empresa"
                   name="empresa"
                   type="text"
-                  placeholder="Nombre de su empresa"
+                  placeholder={c.placeholderCompany}
                   value={form.empresa}
                   onChange={handleChange}
                 />
@@ -316,12 +305,12 @@ export default function Contacto() {
 
             <div className="contact__form-row">
               <div className="contact__field">
-                <label htmlFor="email">Correo Electrónico *</label>
+                <label htmlFor="email">{c.labelEmail}</label>
                 <input
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="correo@ejemplo.com"
+                  placeholder={c.placeholderEmail}
                   value={form.email}
                   onChange={handleChange}
                   className={errors.email ? 'error' : ''}
@@ -329,12 +318,12 @@ export default function Contacto() {
                 {errors.email && <span className="contact__error">{errors.email}</span>}
               </div>
               <div className="contact__field">
-                <label htmlFor="telefono">Teléfono</label>
+                <label htmlFor="telefono">{c.labelPhone}</label>
                 <input
                   id="telefono"
                   name="telefono"
                   type="tel"
-                  placeholder="844 112 2424"
+                  placeholder={c.placeholderPhone}
                   value={form.telefono}
                   onChange={handleChange}
                   className={errors.telefono ? 'error' : ''}
@@ -344,27 +333,27 @@ export default function Contacto() {
             </div>
 
             <div className="contact__field">
-              <label htmlFor="servicio">Tipo de Servicio</label>
+              <label htmlFor="servicio">{c.labelService}</label>
               <select
                 id="servicio"
                 name="servicio"
                 value={form.servicio}
                 onChange={handleChange}
               >
-                <option value="">Seleccione un servicio</option>
-                {SERVICE_OPTIONS.map((opt) => (
+                <option value="">{c.placeholderService}</option>
+                {c.serviceOptions.map((opt) => (
                   <option key={opt} value={opt}>{opt}</option>
                 ))}
               </select>
             </div>
 
             <div className="contact__field">
-              <label htmlFor="mensaje">Mensaje *</label>
+              <label htmlFor="mensaje">{c.labelMessage}</label>
               <textarea
                 id="mensaje"
                 name="mensaje"
                 rows="5"
-                placeholder="Describa su proyecto o necesidad..."
+                placeholder={c.placeholderMessage}
                 value={form.mensaje}
                 onChange={handleChange}
                 className={errors.mensaje ? 'error' : ''}
@@ -383,14 +372,14 @@ export default function Contacto() {
                     <svg className="contact__spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="12" cy="12" r="10"/>
                     </svg>
-                    Enviando...
+                    {c.btnSending}
                   </>
                 ) : (
                   <>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
                     </svg>
-                    Enviar por correo
+                    {c.btnSend}
                   </>
                 )}
               </button>
@@ -419,17 +408,15 @@ export default function Contacto() {
                     ``,
                     `Quedo en espera de su respuesta. Gracias.`,
                   ].filter(l => l !== null).join('\n');
-                  const msg = lineas;
-                  window.open(`https://wa.me/528441223339?text=${encodeURIComponent(msg)}`,'_blank');
+                  window.open(`https://wa.me/528441223339?text=${encodeURIComponent(lineas)}`,'_blank');
                 }}
               >
-                {/* Icono oficial WhatsApp */}
                 <span className="contact__whatsapp-icon">
                   <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.002 3C9.374 3 4 8.373 4 15.001c0 2.184.592 4.23 1.625 5.985L4 29l8.23-1.598A11.94 11.94 0 0 0 16.002 28c6.627 0 12-5.373 12-12.001C28.002 8.373 22.63 3 16.002 3zm0 21.9a9.87 9.87 0 0 1-5.03-1.376l-.36-.214-3.733.726.756-3.64-.236-.373A9.863 9.863 0 0 1 6.1 15c0-5.46 4.44-9.9 9.902-9.9C21.464 5.1 25.9 9.54 25.9 15c0 5.46-4.436 9.9-9.898 9.9zm5.43-7.41c-.298-.149-1.762-.87-2.035-.968-.273-.1-.472-.149-.67.149-.198.297-.77.968-.943 1.167-.174.198-.347.223-.645.074-.298-.149-1.258-.464-2.396-1.48-.886-.79-1.484-1.765-1.658-2.063-.174-.297-.019-.458.13-.606.134-.133.298-.347.447-.52.15-.174.199-.298.298-.497.1-.198.05-.372-.025-.52-.075-.15-.67-1.614-.918-2.21-.242-.579-.487-.5-.67-.51l-.57-.01c-.198 0-.52.074-.793.372-.273.297-1.04 1.017-1.04 2.48 0 1.463 1.065 2.876 1.213 3.075.149.198 2.095 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.117.571-.085 1.762-.72 2.01-1.416.249-.695.249-1.29.174-1.416-.074-.124-.272-.198-.57-.347z"/>
                   </svg>
                 </span>
-                <span className="contact__whatsapp-label">WhatsApp</span>
+                <span className="contact__whatsapp-label">{c.btnWhatsApp}</span>
               </button>
             </div>
 
@@ -437,13 +424,13 @@ export default function Contacto() {
             {status === 'success' && (
               <div className="contact__status contact__status--success">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                ¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.
+                {c.successMsg}
               </div>
             )}
             {status === 'error' && (
               <div className="contact__status contact__status--error">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                Ocurrió un error. Por favor intente de nuevo o contáctenos directamente.
+                {c.errorMsg}
               </div>
             )}
           </form>

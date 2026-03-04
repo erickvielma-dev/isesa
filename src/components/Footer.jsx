@@ -1,23 +1,11 @@
 import logo from '../assets/logo_mejorado.png';
 import './Footer.css';
-
-const FOOTER_LINKS = [
-  { label: 'Inicio', href: '#inicio' },
-  { label: 'Quiénes Somos', href: '#quienes-somos' },
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Proyectos', href: '#proyectos' },
-  { label: 'Contacto', href: '#contacto' },
-];
-
-const SERVICES_LINKS = [
-  'Instalaciones Eléctricas',
-  'Sistemas Electromecánicos',
-  'Construcción Civil',
-  'Mantenimiento Preventivo',
-  'Trámites ante CFE',
-];
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
+  const f = t.footer;
+
   const handleClick = (e, href) => {
     e.preventDefault();
     const target = document.querySelector(href);
@@ -35,17 +23,14 @@ export default function Footer() {
           {/* Col 1: Logo & Descripción */}
           <div className="footer__brand">
             <img src={logo} alt="ISESA" className="footer__logo" />
-            <p>
-              Industries Supply Electric S.A. de C.V. — Más de dos décadas de trayectoria
-              ejecutando proyectos de ingeniería eléctrica, electromecánica y obra civil con los más altos estándares de calidad.
-            </p>
+            <p>{f.description}</p>
           </div>
 
           {/* Col 2: Links rápidos */}
           <div className="footer__col">
-            <h4>Navegación</h4>
+            <h4>{f.navTitle}</h4>
             <ul>
-              {FOOTER_LINKS.map(({ label, href }) => (
+              {f.navLinks.map(({ label, href }) => (
                 <li key={href}>
                   <a href={href} onClick={(e) => handleClick(e, href)}>{label}</a>
                 </li>
@@ -55,9 +40,9 @@ export default function Footer() {
 
           {/* Col 3: Servicios */}
           <div className="footer__col">
-            <h4>Servicios</h4>
+            <h4>{f.servicesTitle}</h4>
             <ul>
-              {SERVICES_LINKS.map((service, i) => (
+              {f.serviceLinks.map((service, i) => (
                 <li key={i}>
                   <a href="#servicios" onClick={(e) => handleClick(e, '#servicios')}>{service}</a>
                 </li>
@@ -67,7 +52,7 @@ export default function Footer() {
 
           {/* Col 4: Contacto */}
           <div className="footer__col">
-            <h4>Contacto</h4>
+            <h4>{f.contactTitle}</h4>
             <ul className="footer__contact-list">
               <li>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -92,7 +77,7 @@ export default function Footer() {
         </div>
 
         <div className="footer__bottom">
-          <p>&copy; {new Date().getFullYear()} Industries Supply Electric S.A. de C.V. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} Industries Supply Electric S.A. de C.V. {f.rights}</p>
         </div>
       </div>
     </footer>
