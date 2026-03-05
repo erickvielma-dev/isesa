@@ -47,10 +47,7 @@ const translations = {
       p3: () => (
         <>
           Contamos con un equipo multidisciplinario de ingenieros y técnicos especializados en construcción, electricidad
-          y electromecánica, respaldados por alianzas estratégicas con instituciones líderes del país. Actualmente, somos
-          proveedores de confianza de <strong>Banorte</strong>, ejecutando instalaciones eléctricas para cajeros
-          automáticos, construcción integral de sucursales bancarias y proyectos llave en mano, desde cimentación hasta
-          puesta en operación.
+          y electromecánica, respaldados por alianzas estratégicas con instituciones líderes del país.
         </>
       ),
       missionTitle: 'Nuestra Misión',
