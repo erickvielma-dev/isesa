@@ -6,13 +6,18 @@ import './Header.css';
 
 const NAV_HREFS = [
   '#inicio',
-  '#quienes-somos',
   '#servicios',
-  '#clientes',
-  '#proyectos',
   '#proceso',
+  '#proyectos',
+  '#trabajos',
+  '#clientes',
+  '#quienes-somos',
+  '#historia',
   '#contacto',
 ];
+
+const SUBMENU_PARENT = '#proyectos';
+const SUBMENU_CHILD  = { href: '#trabajos' };
 
 export default function Header() {
   const { lang, toggle, t } = useLanguage();
@@ -22,11 +27,17 @@ export default function Header() {
 
   const NAV_LINKS = [
     { label: t.nav.inicio, href: '#inicio' },
-    { label: t.nav.quienesSomos, href: '#quienes-somos' },
     { label: t.nav.servicios, href: '#servicios' },
-    { label: t.nav.clientes, href: '#clientes' },
-    { label: t.nav.proyectos, href: '#proyectos' },
     { label: t.nav.proceso, href: '#proceso' },
+    {
+      label: t.nav.proyectos, href: '#proyectos',
+      sub: { label: t.nav.trabajos, href: '#trabajos' },
+    },
+    { label: t.nav.clientes, href: '#clientes' },
+    {
+      label: t.nav.quienesSomos, href: '#quienes-somos',
+      sub: { label: t.nav.historia, href: '#historia' },
+    },
     { label: t.nav.contacto, href: '#contacto' },
   ];
 
@@ -101,15 +112,40 @@ export default function Header() {
 
           {/* Navegación escritorio */}
           <nav className="header__nav header__nav--desktop">
-            {NAV_LINKS.map(({ label, href }) => (
-              <a
-                key={href}
-                href={href}
-                className={`header__link ${activeSection === href ? 'header__link--active' : ''}`}
-                onClick={(e) => handleClick(e, href)}
-              >
-                {label}
-              </a>
+            {NAV_LINKS.map(({ label, href, sub }) => (
+              sub ? (
+                <div key={href} className="header__dropdown">
+                  <a
+                    href={href}
+                    className={`header__link ${activeSection === href || activeSection === sub.href ? 'header__link--active' : ''}`}
+                    onClick={(e) => handleClick(e, href)}
+                  >
+                    {label}
+                    <svg className="header__dropdown-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                  </a>
+                  <div className="header__dropdown-menu">
+                    <a
+                      href={sub.href}
+                      className={`header__dropdown-item ${activeSection === sub.href ? 'header__dropdown-item--active' : ''}`}
+                      onClick={(e) => handleClick(e, sub.href)}
+                    >
+                      {sub.icon && <span className="header__dropdown-item-icon">{sub.icon}</span>}
+                      {sub.label}
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <a
+                  key={href}
+                  href={href}
+                  className={`header__link ${activeSection === href ? 'header__link--active' : ''}`}
+                  onClick={(e) => handleClick(e, href)}
+                >
+                  {label}
+                </a>
+              )
             ))}
           </nav>
 
@@ -186,22 +222,39 @@ export default function Header() {
 
         {/* Links de navegación */}
         <nav className="header__mobile-nav">
-          {NAV_LINKS.map(({ label, href }, i) => (
-            <a
-              key={href}
-              href={href}
-              className={`header__mobile-link ${activeSection === href ? 'header__mobile-link--active' : ''}`}
-              style={{ '--i': i }}
-              onClick={(e) => handleClick(e, href)}
-            >
-              <span className="header__mobile-link-num">{String(i + 1).padStart(2, '0')}</span>
-              <span className="header__mobile-link-label">{label}</span>
-              <span className="header__mobile-link-line" aria-hidden="true" />
-              <svg className="header__mobile-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </a>
+          {NAV_LINKS.map(({ label, href, sub }, i) => (
+            <div key={href}>
+              <a
+                href={href}
+                className={`header__mobile-link ${activeSection === href ? 'header__mobile-link--active' : ''}`}
+                style={{ '--i': i }}
+                onClick={(e) => handleClick(e, href)}
+              >
+                <span className="header__mobile-link-num">{String(i + 1).padStart(2, '0')}</span>
+                <span className="header__mobile-link-label">{label}</span>
+                <span className="header__mobile-link-line" aria-hidden="true" />
+                <svg className="header__mobile-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+              {sub && (
+                <a
+                  href={sub.href}
+                  className={`header__mobile-link header__mobile-sublink ${activeSection === sub.href ? 'header__mobile-link--active' : ''}`}
+                  style={{ '--i': i + 0.5 }}
+                  onClick={(e) => handleClick(e, sub.href)}
+                >
+                  <span className="header__mobile-link-num" />
+                  <span className="header__mobile-link-label">{sub.label}</span>
+                  <span className="header__mobile-link-line" aria-hidden="true" />
+                  <svg className="header__mobile-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </a>
+              )}
+            </div>
           ))}
         </nav>
 

@@ -1,88 +1,286 @@
+/* ============================================================
+   Nuestro Proceso — Interactive card stepper
+   ============================================================ */
 .process {
-  background: var(--color-bg);
+  background: var(--color-bg-alt);
 }
 
-.process__timeline {
+/* ── Horizontal progress dots ── */
+.process__progress {
   display: flex;
-  flex-direction: column;
-  gap: 0;
-  max-width: 700px;
-  margin: 0 auto;
+  justify-content: center;
+  margin-bottom: 3rem;
 }
 
-.process__step {
+.process__progress-track {
   display: flex;
-  gap: 1.5rem;
-}
-
-.process__step-indicator {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  flex-shrink: 0;
+  gap: 0;
+  position: relative;
 }
 
-.process__step-icon {
-  width: 64px;
-  height: 64px;
+/* Connector line through dots */
+.process__progress-track::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: var(--color-border);
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.process__progress-dot {
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: var(--color-accent-light);
-  color: var(--color-secondary);
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 1;
-  transition: all var(--transition);
+  cursor: pointer;
+  transition: all 0.35s ease;
+  margin: 0 2rem;
 }
 
-.process__step:hover .process__step-icon {
-  background: linear-gradient(135deg, var(--color-secondary), var(--color-accent));
-  color: #fff;
-  transform: scale(1.1);
-  box-shadow: 0 4px 20px rgba(27, 110, 194, 0.3);
-}
-
-.process__step-line {
-  width: 2px;
-  flex: 1;
-  min-height: 40px;
-  background: linear-gradient(180deg, var(--color-accent), var(--color-border));
-}
-
-.process__step-content {
-  padding-bottom: 2.5rem;
-}
-
-.process__step-number {
-  display: inline-block;
+.process__progress-dot span {
   font-family: var(--font-heading);
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: var(--color-accent);
-  background: var(--color-accent-light);
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
-}
-
-.process__step-content h3 {
-  font-size: 1.15rem;
-  margin-bottom: 0.5rem;
-}
-
-.process__step-content p {
-  font-size: 0.92rem;
   color: var(--color-text-light);
-  line-height: 1.75;
+  transition: color 0.35s ease;
 }
 
-@media (max-width: 600px) {
-  .process__step {
-    gap: 1rem;
+.process__progress-dot:hover {
+  border-color: var(--color-secondary);
+  transform: scale(1.1);
+}
+
+.process__progress-dot--active {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary);
+  box-shadow: 0 0 0 6px rgba(27, 110, 194, 0.12);
+  transform: scale(1.15);
+}
+
+.process__progress-dot--active span {
+  color: #fff;
+}
+
+/* ── Cards grid ── */
+.process__cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+/* ── Individual card ── */
+.process__card {
+  position: relative;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem 2rem;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+}
+
+.process__card:hover {
+  border-color: rgba(27, 110, 194, 0.25);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.process__card--active {
+  border-color: var(--color-secondary);
+  background: linear-gradient(135deg, rgba(27, 110, 194, 0.03) 0%, rgba(77, 163, 255, 0.06) 100%);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+.process__card--active:hover {
+  transform: translateY(-8px);
+}
+
+/* ── Watermark number ── */
+.process__card-watermark {
+  position: absolute;
+  top: -12px;
+  right: -4px;
+  font-family: var(--font-heading);
+  font-size: 8rem;
+  font-weight: 900;
+  color: var(--color-secondary);
+  opacity: 0.05;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.4s ease;
+}
+
+.process__card--active .process__card-watermark,
+.process__card:hover .process__card-watermark {
+  opacity: 0.1;
+}
+
+/* ── Icon circle ── */
+.process__card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: all 0.4s ease;
+  flex-shrink: 0;
+}
+
+.process__card-icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--color-secondary);
+  transition: color 0.4s ease;
+}
+
+.process__card--active .process__card-icon,
+.process__card:hover .process__card-icon {
+  background: var(--color-secondary);
+}
+
+.process__card--active .process__card-icon svg,
+.process__card:hover .process__card-icon svg {
+  color: #fff;
+}
+
+/* ── Card text ── */
+.process__card-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+  transition: color 0.3s ease;
+}
+
+.process__card-desc {
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  line-height: 1.7;
+  flex-grow: 1;
+  transition: color 0.3s ease;
+}
+
+.process__card--active .process__card-desc {
+  color: var(--color-text);
+}
+
+/* ── Bottom accent line ── */
+.process__card-accent {
+  display: block;
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-border);
+  margin-top: 1.5rem;
+  transition: all 0.4s ease;
+}
+
+.process__card--active .process__card-accent,
+.process__card:hover .process__card-accent {
+  width: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-accent));
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 1024px) {
+  .process__cards {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .process__step-icon {
-    width: 52px;
-    height: 52px;
+
+  .process__card {
+    min-height: 240px;
+  }
+
+  .process__progress-dot {
+    margin: 0 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .process__progress {
+    margin-bottom: 2rem;
+  }
+
+  .process__progress-dot {
+    width: 44px;
+    height: 44px;
+    margin: 0 0.75rem;
+  }
+
+  .process__progress-dot span {
+    font-size: 0.85rem;
+  }
+
+  .process__card {
+    padding: 2rem 1.5rem 1.5rem;
+    min-height: auto;
+  }
+
+  .process__card-watermark {
+    font-size: 6rem;
+  }
+
+  .process__card-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+  }
+
+  .process__card-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .process__card-title {
+    font-size: 1.1rem;
+  }
+
+  .process__card-desc {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .process__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .process__progress-dot {
+    width: 38px;
+    height: 38px;
+    margin: 0 0.5rem;
+  }
+
+  .process__progress-dot span {
+    font-size: 0.8rem;
+  }
+
+  .process__progress-track::before {
+    left: 20px;
+    right: 20px;
   }
 }

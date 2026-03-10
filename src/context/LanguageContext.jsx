@@ -4,10 +4,12 @@ const translations = {
   es: {
     nav: {
       inicio: 'Inicio',
+      historia: 'Historia',
       quienesSomos: 'Quiénes Somos',
       servicios: 'Servicios',
       clientes: 'Clientes',
       proyectos: 'Proyectos',
+      trabajos: 'Trabajos',
       proceso: 'Proceso',
       contacto: 'Contacto',
       openMenu: 'Abrir menú',
@@ -19,17 +21,19 @@ const translations = {
       title2: 'a tus Proyectos',
       subtitle:
         'Soluciones integrales en instalaciones eléctricas, sistemas electromecánicos y construcción de obra civil para los sectores industrial, comercial y bancario a nivel nacional.',
-      stat1Number: '+20',
+      stat1Number: '+25',
       stat1Label: 'Años de experiencia',
       stat2Number: '+500',
       stat2Label: 'Proyectos realizados',
       stat3Number: '5',
       stat3Label: 'Estados de cobertura',
     },
-    about: {
-      title: 'Quiénes Somos',
+    history: {
+      title: 'Nuestra Historia',
       subtitle:
         'Más de dos décadas de trayectoria ejecutando proyectos eléctricos, electromecánicos y de construcción civil en México.',
+      statFounded: 'Año de fundación',
+      statYears: 'Años de experiencia',
       p1: () => (
         <>
           <strong>Industries Supply Electric S.A. de C.V. (ISESA)</strong> inició operaciones en diciembre de 2005
@@ -50,6 +54,11 @@ const translations = {
           y electromecánica, respaldados por alianzas estratégicas con instituciones líderes del país.
         </>
       ),
+    },
+    about: {
+      title: 'Quiénes Somos',
+      subtitle:
+        'Nuestra misión, visión y compromiso con la calidad.',
       missionTitle: 'Nuestra Misión',
       missionText:
         'Contribuir al desarrollo industrial, comercial y habitacional del país mediante la ejecución de proyectos integrales de construcción e instalaciones electromecánicas y eléctricas de la más alta calidad. Aplicamos metodologías de vanguardia y tecnología de punta, promoviendo un entorno laboral seguro, con oportunidades de desarrollo profesional para cada uno de nuestros colaboradores.',
@@ -161,8 +170,34 @@ const translations = {
         },
       ],
     },
+    works: {
+      title: 'Nuestros Trabajos',
+      subtitle:
+        'Galería de proyectos ejecutados que reflejan nuestro compromiso con la calidad, la precisión y la excelencia en cada detalle.',
+      viewGallery: 'Ver galería completa',
+      filters: [
+        { key: 'all', label: 'Todos' },
+        { key: 'electric', label: 'Eléctricos' },
+        { key: 'civil', label: 'Obra Civil' },
+        { key: 'electromech', label: 'Electromecánica' },
+        { key: 'maintenance', label: 'Mantenimiento' },
+      ],
+      items: [
+        { title: 'Construcción de Sucursal Bancaria', category: 'civil', categoryLabel: 'Obra Civil' },
+        { title: 'Subestación con Transformador Industrial', category: 'electric', categoryLabel: 'Eléctricos' },
+        { title: 'Montaje de Cabina de Pintura', category: 'electromech', categoryLabel: 'Electromecánica' },
+        { title: 'Remodelación de Lobbys Comerciales', category: 'civil', categoryLabel: 'Obra Civil' },
+        { title: 'Sistemas Eléctricos de Media Tensión', category: 'electric', categoryLabel: 'Eléctricos' },
+        { title: 'Instalación Electromecánica Industrial', category: 'electromech', categoryLabel: 'Electromecánica' },
+        { title: 'Mantenimiento Preventivo de Subestación', category: 'maintenance', categoryLabel: 'Mantenimiento' },
+        { title: 'Construcción de Obra Civil Industrial', category: 'civil', categoryLabel: 'Obra Civil' },
+        { title: 'Electrificación y Alumbrado Público', category: 'electric', categoryLabel: 'Eléctricos' },
+        { title: 'Supervisión Técnica de Obra', category: 'maintenance', categoryLabel: 'Mantenimiento' },
+      ],
+    },
     process: {
       title: 'Nuestro Proceso de Trabajo',
+      stepLabel: 'Paso',
       subtitle:
         'Una metodología probada que asegura calidad, transparencia y cumplimiento puntual en cada fase de su proyecto.',
       steps: [
@@ -247,8 +282,10 @@ const translations = {
       ],
       navLinks: [
         { label: 'Inicio', href: '#inicio' },
+        { label: 'Historia', href: '#historia' },
         { label: 'Quiénes Somos', href: '#quienes-somos' },
         { label: 'Servicios', href: '#servicios' },
+        { label: 'Trabajos', href: '#trabajos' },
         { label: 'Proyectos', href: '#proyectos' },
         { label: 'Contacto', href: '#contacto' },
       ],
@@ -259,10 +296,12 @@ const translations = {
   en: {
     nav: {
       inicio: 'Home',
+      historia: 'History',
       quienesSomos: 'About Us',
       servicios: 'Services',
       clientes: 'Clients',
       proyectos: 'Projects',
+      trabajos: 'Our Work',
       proceso: 'Process',
       contacto: 'Contact',
       openMenu: 'Open menu',
@@ -274,17 +313,19 @@ const translations = {
       title2: 'into Your Projects',
       subtitle:
         'Comprehensive solutions in electrical installations, electromechanical systems, and civil construction for the industrial, commercial, and banking sectors nationwide.',
-      stat1Number: '+20',
+      stat1Number: '+25',
       stat1Label: 'Years of experience',
       stat2Number: '+500',
       stat2Label: 'Completed projects',
       stat3Number: '5',
       stat3Label: 'States covered',
     },
-    about: {
-      title: 'About Us',
+    history: {
+      title: 'Our History',
       subtitle:
         'Over two decades of expertise delivering electrical, electromechanical, and civil construction projects across Mexico.',
+      statFounded: 'Year founded',
+      statYears: 'Years of experience',
       p1: () => (
         <>
           <strong>Industries Supply Electric S.A. de C.V. (ISESA)</strong> began operations in December 2005 with a firm
@@ -307,6 +348,11 @@ const translations = {
           of banking branches, and turnkey projects from foundation to commissioning.
         </>
       ),
+    },
+    about: {
+      title: 'About Us',
+      subtitle:
+        'Our mission, vision, and commitment to quality.',
       missionTitle: 'Our Mission',
       missionText:
         'To contribute to the industrial, commercial, and residential development of the country through the execution of comprehensive construction and electromechanical-electrical installation projects of the highest quality. We apply cutting-edge methodologies and technology, fostering a safe work environment with professional development opportunities for every team member.',
@@ -418,8 +464,34 @@ const translations = {
         },
       ],
     },
+    works: {
+      title: 'Our Work',
+      subtitle:
+        'A gallery of completed projects that reflect our commitment to quality, precision, and excellence in every detail.',
+      viewGallery: 'View full gallery',
+      filters: [
+        { key: 'all', label: 'All' },
+        { key: 'electric', label: 'Electrical' },
+        { key: 'civil', label: 'Civil Work' },
+        { key: 'electromech', label: 'Electromechanical' },
+        { key: 'maintenance', label: 'Maintenance' },
+      ],
+      items: [
+        { title: 'Banking Branch Construction', category: 'civil', categoryLabel: 'Civil Work' },
+        { title: 'Industrial Transformer Substation', category: 'electric', categoryLabel: 'Electrical' },
+        { title: 'Paint Booth Assembly', category: 'electromech', categoryLabel: 'Electromechanical' },
+        { title: 'Commercial Lobby Renovation', category: 'civil', categoryLabel: 'Civil Work' },
+        { title: 'Medium-Voltage Electrical Systems', category: 'electric', categoryLabel: 'Electrical' },
+        { title: 'Industrial Electromechanical Installation', category: 'electromech', categoryLabel: 'Electromechanical' },
+        { title: 'Preventive Substation Maintenance', category: 'maintenance', categoryLabel: 'Maintenance' },
+        { title: 'Industrial Civil Construction', category: 'civil', categoryLabel: 'Civil Work' },
+        { title: 'Public Lighting & Electrification', category: 'electric', categoryLabel: 'Electrical' },
+        { title: 'Technical Works Supervision', category: 'maintenance', categoryLabel: 'Maintenance' },
+      ],
+    },
     process: {
       title: 'Our Work Process',
+      stepLabel: 'Step',
       subtitle:
         'A proven methodology that ensures quality, transparency, and on-time delivery at every phase of your project.',
       steps: [
@@ -504,8 +576,10 @@ const translations = {
       ],
       navLinks: [
         { label: 'Home', href: '#inicio' },
+        { label: 'History', href: '#historia' },
         { label: 'About Us', href: '#quienes-somos' },
         { label: 'Services', href: '#servicios' },
+        { label: 'Our Work', href: '#trabajos' },
         { label: 'Projects', href: '#proyectos' },
         { label: 'Contact', href: '#contacto' },
       ],
