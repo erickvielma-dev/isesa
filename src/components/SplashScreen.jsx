@@ -18,6 +18,7 @@ export default function SplashScreen({ onFinish }) {
     <div className={`splash ${fadeOut ? 'splash--hide' : ''}`}>
       {/* Onda eléctrica animada de fondo */}
       <div className="splash__wave" />
+      <div className="splash__grid-pattern" />
       <div className="splash__content">
         <img src={logo} alt="ISESA" className="splash__logo" />
         <div className="splash__pulse" />
