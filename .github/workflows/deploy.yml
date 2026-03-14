@@ -1,14 +1,13 @@
 # ============================================================
-# iSESA — Deploy to AWS S3 + CloudFront
+# iSESA — Deploy to Firebase Hosting
 # Se ejecuta únicamente en push a la rama master.
 #
 # Secretos requeridos en GitHub → Settings → Secrets and variables → Actions:
-#   AWS_ACCESS_KEY_ID          → IAM user con permisos S3/CloudFront
-#   AWS_SECRET_ACCESS_KEY      → Clave secreta del IAM user
-#   S3_BUCKET_NAME             → Nombre del bucket (ej. isesa-website)
-#   CLOUDFRONT_DISTRIBUTION_ID → ID de la distribución CloudFront (ej. E1ABCDEF123456)
+#   FIREBASE_SERVICE_ACCOUNT   → JSON de la cuenta de servicio de Firebase
+#                                 (obtenido desde Firebase Console → Project Settings
+#                                  → Service accounts → Generate new private key)
 # ============================================================
-name: Deploy to AWS
+name: Deploy to Firebase Hosting
 
 on:
   push:
@@ -52,34 +51,11 @@ jobs:
           path: dist/
           retention-days: 14
 
-      # 6. Configurar credenciales AWS
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      # 6. Desplegar en Firebase Hosting
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
-      # 7. Subir archivos estáticos a S3 con cache agresivo (JS/CSS/imágenes)
-      - name: Sync static assets to S3 (with long cache)
-        run: |
-          aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} \
-            --delete \
-            --cache-control "public, max-age=31536000, immutable" \
-            --exclude "*.html"
-
-      # 8. Subir HTML sin cache para asegurar que siempre se sirva la versión más reciente
-      - name: Sync HTML files to S3 (no cache)
-        run: |
-          aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} \
-            --cache-control "no-cache, no-store, must-revalidate" \
-            --content-type "text/html" \
-            --exclude "*" \
-            --include "*.html"
-
-      # 9. Invalidar caché de CloudFront para entregar los nuevos archivos de inmediato
-      - name: Invalidate CloudFront cache
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-            --paths "/*"
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          channelId: live
+          projectId: isesa-mx
